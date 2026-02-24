@@ -1,0 +1,30 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname=nghttp2
+pkgver=1.65.0
+pkgrel=1
+pkgdesc="HTTP/2 C Library"
+url="https://nghttp2.org"
+arch="all"
+license="MIT"
+makedepends="qnx-io-sock-dev"
+subpackages="$pkgname-static $pkgname-doc $pkgname-dev"
+source="https://github.com/nghttp2/nghttp2/releases/download/v$pkgver/nghttp2-$pkgver.tar.xz"
+builddir="$srcdir/nghttp2-$pkgver"
+
+build() {
+    ./configure \
+        --build="$CBUILD" \
+        --host="$CHOST" \
+        --prefix=/usr \
+        --disable-examples \
+        --disable-python-bindings \
+        --enable-lib-only
+    make
+}
+
+package() {
+    make DESTDIR="$pkgdir" install
+}
+sha512sums="
+e1ef685a425017474ea0412c8ad13a217a45a320322b3aee48e646be21457d9b1f374abb9f681f47595a0ad8feb07d076bd0aa3279d35c5c9b5b8c921d8dd39e  nghttp2-1.65.0.tar.xz
+"
